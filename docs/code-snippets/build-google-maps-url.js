@@ -6,13 +6,17 @@ export default GoogleMapsAPIService.extend({
   buildGoogleMapsUrl(config) {
     let [language, region] = navigator.language.split('-');
 
-    let src = `//maps.googleapis.com/maps/api/js?`
+    let src = `//maps.googleapis.com/maps/api/js?`;
     let params = [`key=${config.key}`];
 
-    if (language) { params.push(`language=${language}`); }
+    if (language) {
+      params.push(`language=${language}`);
+    }
 
-    if (region) { params.push(`region=${region}`); }
+    if (region) {
+      params.push(`region=${region}`);
+    }
 
     return src + params.join('&');
-  }
+  },
 });

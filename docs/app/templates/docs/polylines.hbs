@@ -21,14 +21,17 @@
       @zoom={{10}}
       @styles={{this.primaryMapStyle}}
       class="ember-google-map-responsive"
-      @onClick={{this.appendPolyline}} as |g|>
+      @onClick={{this.appendPolyline}}
+      as |g|
+    >
 
       <g.polyline
         @path={{this.flightCoordinates}}
         @geodesic={{true}}
         @strokeColor={{this.fillColor}}
         @strokeOpacity={{1}}
-        @strokeWeight={{3}} />
+        @strokeWeight={{3}}
+      />
 
     </GMap>
   </div>

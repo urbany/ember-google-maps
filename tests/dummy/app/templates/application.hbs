@@ -3,11 +3,14 @@
     @id="main-marker"
     @lat={{this.london.lat}}
     @lng={{this.london.lng}}
-    @onClick={{fn this.toggle "markerTooltipOpen" this}} as |marker|>
+    @onClick={{fn this.toggle "markerTooltipOpen" this}}
+    as |marker|
+  >
 
     <marker.infoWindow
       @isOpen={{this.markerTooltipOpen}}
-      @onCloseclick={{fn (mut this.markerTooltipOpen) false}}>
+      @onCloseclick={{fn (mut this.markerTooltipOpen) false}}
+    >
       <span data-test-info-window>You clicked me!</span>
     </marker.infoWindow>
 

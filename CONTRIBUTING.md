@@ -2,20 +2,20 @@
 
 ## Installation
 
-* `git clone https://github.com/sandydoo/ember-google-maps`
-* `cd ember-google-maps`
-* `pnpm install`
+- `git clone <repository-url>`
+- `cd ember-google-maps`
+- `pnpm install`
 
 ## Linting
 
-* `pnpm lint`
-* `pnpm lint:fix`
+- `pnpm lint`
+- `pnpm lint:fix`
 
 ## Running tests
 
-* `pnpm test` – Runs the test suite on the current Ember version
-* `pnpm test:ember --server` – Runs the test suite in "watch mode"
-* `pnpm test:ember-compatibility` – Runs the test suite against multiple Ember versions
+- `pnpm test` – Runs the test suite on the current Ember version
+- `pnpm test:ember --server` – Runs the test suite in "watch mode"
+- `pnpm test:ember-compatibility` – Runs the test suite against multiple Ember versions
 
 #### Setting up API keys
 
@@ -30,8 +30,8 @@ Assign this key to the `GOOGLE_MAPS_API_KEY` variable in `.env` or just run thes
 
 ## Running the dummy application
 
-* `pnpm start`
-* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
+- `pnpm start`
+- Visit the dummy application at [http://localhost:4200](http://localhost:4200).
 
 For more information on using ember-cli, visit [https://cli.emberjs.com/release/](https://cli.emberjs.com/release/).
 

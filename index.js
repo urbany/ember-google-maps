@@ -1,5 +1,3 @@
-/* eslint-disable prefer-template */
-
 'use strict';
 
 const Funnel = require('broccoli-funnel');

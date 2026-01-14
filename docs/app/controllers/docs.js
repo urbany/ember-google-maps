@@ -45,7 +45,7 @@ export default class DocsController extends ApplicationController {
   primaryMapStyle = darkStyle;
   lightStyle = lightStyle;
 
-  mapId = "424eeb45d82b93bd";
+  mapId = '424eeb45d82b93bd';
 
   get currentPage() {
     return this.links.find((l) => l.path === this.routeName);

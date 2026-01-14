@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 export default class extends Controller {
   london = {
     lat: 51.507568,
-    lng: -0.127762
+    lng: -0.127762,
   };
 
   @action

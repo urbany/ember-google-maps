@@ -17,7 +17,7 @@ module('Acceptance | map', function (hooks) {
     let { components } = await waitForMap();
 
     let marker = components.markers.find(
-      (marker) => marker.mapComponent.locationId === '#some-important-location'
+      (marker) => marker.mapComponent.locationId === '#some-important-location',
     );
     trigger(marker.mapComponent, 'click');
 

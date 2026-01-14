@@ -2,14 +2,17 @@
   @mapId="<YOUR MAPID"
   @lat="51.507568"
   @lng="-0.127762"
-  @zoom={{9}} as |map|>
+  @zoom={{9}}
+  as |map|
+>
 
   {{#each this.londonLocations as |location|}}
     <map.advancedMarker
       @lat={{location.lat}}
       @lng={{location.lng}}
       @gmpDraggable={{false}}
-      @onClick={{this.onClick}} />
+      @onClick={{this.onClick}}
+    />
   {{/each}}
 
 </GMap>

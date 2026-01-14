@@ -4,7 +4,8 @@
     @onClick={{this.whenAClusterMarkerIsClicked}}
     @onClusteringbegin={{this.whenABatchOfMarkersIsToBeClustered}}
     @onClusteringend={{this.whenABatchOfMarkersHasBeenClustered}}
-    as |cluster|>
+    as |cluster|
+  >
 
     {{#each this.locations as |location|}}
       <cluster.marker @lat={{location.lat}} @lng={{location.lng}} />

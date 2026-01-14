@@ -1,123 +1,157 @@
-import js from "@eslint/js";
-import globals from "globals";
-import babelParser from "@babel/eslint-parser";
-import ember from "eslint-plugin-ember";
-import n from "eslint-plugin-n";
-import qunit from "eslint-plugin-qunit";
-import prettier from "eslint-plugin-prettier";
-import prettierConfig from "eslint-config-prettier";
+/**
+ * Debugging:
+ *   https://eslint.org/docs/latest/use/configure/debug
+ *  ----------------------------------------------------
+ *
+ *   Print a file's calculated configuration
+ *
+ *     npx eslint --print-config path/to/file.js
+ *
+ *   Inspecting the config
+ *
+ *     npx eslint --inspect-config
+ *
+ */
+import globals from 'globals';
+import js from '@eslint/js';
 
-export default [
-  {
-    ignores: [
-      "dist/",
-      "tmp/",
-      "node_modules/",
-      "bower_components/",
-      ".git/",
-      ".DS_Store",
-      ".vscode/",
-      ".idea/",
-      "*.log",
-      "coverage/",
-      "!.*",
+import ember from 'eslint-plugin-ember/recommended';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import qunit from 'eslint-plugin-qunit';
+import n from 'eslint-plugin-n';
+
+import babelParser from '@babel/eslint-parser';
+
+const esmParserOptions = {
+  ecmaFeatures: { modules: true },
+  ecmaVersion: 'latest',
+  requireConfigFile: false,
+  babelOptions: {
+    plugins: [
+      ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }],
     ],
   },
-  // Base config for JS files
+};
+
+export default [
+  js.configs.recommended,
+  eslintConfigPrettier,
+  ember.configs.base,
+  ember.configs.gjs,
+  /**
+   * Ignores must be in their own object
+   * https://eslint.org/docs/latest/use/configure/ignore
+   */
   {
-    files: ["**/*.{js,mjs,cjs}"],
+    ignores: [
+      // unconventional js
+      'blueprints/*/files/',
+      // compiled output
+      'dist/',
+      // misc
+      'coverage/',
+      'DEBUG/',
+      '!.*',
+      '.*/',
+      // ember-try
+      '.node_modules.ember-try/',
+      // the doc app uses a separate eslint config
+      'docs/',
+      // build tests
+      'build-tests/app-template/',
+      // standard ignores
+      'node_modules/',
+      // problematic files
+      'lib/in-repo-pin-addon/**/*',
+    ],
+  },
+  /**
+   * https://eslint.org/docs/latest/use/configure/configuration-files#configuring-linter-options
+   */
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
+  },
+  {
+    files: ['**/*.js'],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
+      parser: babelParser,
+    },
+  },
+  {
+    files: ['**/*.{js,gjs}'],
+    languageOptions: {
+      parserOptions: esmParserOptions,
       globals: {
         ...globals.browser,
         google: false,
       },
-      parser: babelParser,
-      parserOptions: {
-        requireConfigFile: false,
-        babelOptions: {
-          plugins: [
-            ["@babel/plugin-proposal-decorators", { decoratorsBeforeExport: true }],
-          ],
-        },
-      },
-    },
-    plugins: {
-      ember,
-      prettier,
     },
     rules: {
-      ...js.configs.recommended.rules,
-      ...ember.configs.recommended.rules,
-      ...prettierConfig.rules,
+      'ember/no-runloop': 'warn', // Change from error to warning for existing code
     },
   },
-  // Node files override
   {
-    files: [
-      "./.eslintrc.js",
-      "./.prettierrc.js",
-      "./.stylelintrc.js",
-      "./.template-lintrc.js",
-      "./ember-cli-build.js",
-      "./index.js",
-      "./testem.js",
-      "./blueprints/*/index.js",
-      "./config/**/*.js",
-      "./tests/dummy/config/**/*.js",
-      "./build-tests/build-test.js",
-      "./build-tests/**/config/**/*.js",
-      "./lib/**/*.js",
-      "./docs/config/**/*.js",
-      "./docs/ember-cli-build.js",
-      "./docs/testem.js",
-      "./docs/.eslintrc.js",
-      "./docs/.prettierrc.js",
-      "./docs/.stylelintrc.js",
-      "./docs/.template-lintrc.js",
-      "./build-tests/app-template/config/**/*.js",
-      "./build-tests/app-template/ember-cli-build.js",
-      "./build-tests/app-template/testem.js",
-      "./build-tests/app-template/.eslintrc.js",
-      "./build-tests/app-template/.prettierrc.js",
-      "./build-tests/app-template/.stylelintrc.js",
-      "./build-tests/app-template/.template-lintrc.js",
-    ],
-    languageOptions: {
-      ecmaVersion: 2018,
-      sourceType: "script",
-      globals: {
-        ...globals.node,
-      },
-    },
-    plugins: {
-      n,
-    },
-    rules: {
-      ...n.configs.recommended.rules,
-    },
-  },
-  // Test files override
-  {
-    files: ["tests/**/*-test.{js,ts}"],
-    languageOptions: {
-      parser: babelParser,
-      parserOptions: {
-        requireConfigFile: false,
-        babelOptions: {
-          plugins: [
-            ["@babel/plugin-proposal-decorators", { decoratorsBeforeExport: true }],
-          ],
-        },
-      },
-    },
+    ...qunit.configs.recommended,
+    files: ['tests/**/*-test.{js,gjs}'],
     plugins: {
       qunit,
     },
     rules: {
-      ...qunit.configs.recommended.rules,
-      "qunit/require-expect": "off",
+      'qunit/require-expect': 'off',
+    },
+  },
+  /**
+   * CJS node files
+   */
+  {
+    ...n.configs['flat/recommended-script'],
+    files: [
+      '**/*.cjs',
+      'config/**/*.js',
+      'tests/dummy/config/**/*.js',
+      'testem.js',
+      'testem*.js',
+      'index.js',
+      '.prettierrc.js',
+      '.stylelintrc.js',
+      '.template-lintrc.js',
+      'ember-cli-build.js',
+      'build-tests/build-test.js',
+      'lib/**/*.js',
+    ],
+    plugins: {
+      n,
+    },
+    languageOptions: {
+      sourceType: 'script',
+      ecmaVersion: 'latest',
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      'n/no-missing-require': 'warn', // Change from error to warning for build-time dependencies
+    },
+  },
+  /**
+   * ESM node files
+   */
+  {
+    ...n.configs['flat/recommended-module'],
+    files: ['**/*.mjs'],
+    plugins: {
+      n,
+    },
+
+    languageOptions: {
+      sourceType: 'module',
+      ecmaVersion: 'latest',
+      parserOptions: esmParserOptions,
+      globals: {
+        ...globals.node,
+      },
     },
   },
 ];

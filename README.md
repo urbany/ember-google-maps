@@ -23,6 +23,12 @@ A friendly [Ember][ember-url] addon for working with [Google Maps][google-maps-u
 > Thank you! 🙌🙌🙌\
 > — @sandydoo
 
+## Compatibility
+
+- Ember.js v5.8 or above
+- Ember CLI v5.8 or above
+- Node.js v20 or above
+
 <br>
 
 - [Documentation](#-documentation)
@@ -39,8 +45,7 @@ Are you new to Ember? [Learn how to use Ember and install addons →](https://gu
 
 Looking for a more general mapping solution? [Check out ember-leaflet →](https://github.com/miguelcobain/ember-leaflet).
 
-📎 Documentation
---------------------------------------------------------------------------------
+## 📎 Documentation
 
 **[Get started with ember-google-maps →][docs-url]**
 
@@ -60,6 +65,10 @@ ember install ember-google-maps
 }
 ```
 
+## Usage
+
+> > > > > > > 1d2252f (v5.5.0...v6.9.1)
+
 3. Make sure your map has a size, or you’ll end up staring at a blank screen. `ember-google-map` is the default class for all maps.
 
 ```css
@@ -78,18 +87,15 @@ ember install ember-google-maps
 5. Great! You’ve drawn a map.\
    **[Now keep reading the docs →][docs-url]**
 
-
-🔗 Compatibility
---------------------------------------------------------------------------------
+## 🔗 Compatibility
 
 ### [![Latest version][npm-version-badge]][npm-url]
-  - Ember.js v3.28 or above
-  - Ember CLI v3.28 or above
-  - Node.js v18 or above
 
+- Ember.js v3.28 or above
+- Ember CLI v3.28 or above
+- Node.js v18 or above
 
-⭐ Examples
---------------------------------------------------------------------------------
+## ⭐ Examples
 
 Display a map centered around a set of coordinates.
 
@@ -105,7 +111,8 @@ Display an array of locations using markers 📍.
     <map.marker
       @lat={{location.lat}}
       @lng={{location.lng}}
-      @onClick={{fn this.showDetails location}} />
+      @onClick={{fn this.showDetails location}}
+    />
   {{/each}}
 </GMap>
 ```
@@ -129,52 +136,39 @@ This lets you do all sorts of fancy things, like adding CSS animations and bindi
 
 **[Learn more →][docs-url]**
 
-
-🛒 Extra addons
---------------------------------------------------------------------------------
+## 🛒 Extra addons
 
 - [MarkerClustererPlus](https://github.com/sandydoo/ember-google-maps-markerclustererplus) — Add marker clustering to your maps with [@googlemaps/markerclustererplus](https://github.com/googlemaps/js-markerclustererplus).
 
-
-😇 Maintainers
---------------------------------------------------------------------------------
+## 😇 Maintainers
 
 This addon is maintained by **[Sander Melnikov][maintainer-url]**.
 
-
-Contributing
---------------------------------------------------------------------------------
+## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
 
+## License
 
-License
---------------------------------------------------------------------------------
+> > > > > > > 1d2252f (v5.5.0...v6.9.1)
 
 [MIT][license-url] © [Sander Melnikov][maintainer-url].
 
-
-Disclaimer
---------------------------------------------------------------------------------
+## Disclaimer
 
 This software is not endorsed, maintained, or supported by Google LLC.
 
 © 2020 Google LLC All rights reserved. Google Maps™ is a trademark of Google LLC.
 
-
 [npm-version-badge]: https://img.shields.io/npm/v/ember-google-maps.svg?label=latest
 [npm-downloads-badge]: https://img.shields.io/npm/dt/ember-google-maps
 [npm-url]: https://www.npmjs.org/package/ember-google-maps
-
 [ci-badge]: https://github.com/sandydoo/ember-google-maps/workflows/CI/badge.svg?branch=main
 [ci-url]: https://github.com/sandydoo/ember-google-maps/actions?query=workflow%3ACI
-
 [ember-observer-badge]: https://emberobserver.com/badges/ember-google-maps.svg
 [ember-observer-url]: https://emberobserver.com/addons/ember-google-maps
-
 [ember-url]: https://emberjs.com
 [google-maps-url]: https://developers.google.com/maps/documentation/javascript/overview
-
 [docs-url]: https://ember-google-maps.sandydoo.me/docs/getting-started
 [maintainer-url]: https://github.com/sandydoo
 [license-url]: https://github.com/sandydoo/ember-google-maps/blob/main/LICENSE

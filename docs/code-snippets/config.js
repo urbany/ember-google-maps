@@ -9,4 +9,4 @@ ENV['ember-google-maps'] = {
   // channel: undefined,
   // baseUrl: '//maps.googleapis.com/maps/api/js',
   // mapIds: ['1234', '2345'],
-}
+};

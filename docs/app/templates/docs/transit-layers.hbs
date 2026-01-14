@@ -4,9 +4,21 @@
       <h5 id="transit-layers">Traffic, transit, and bicycling layers</h5>
 
       <div class="btn-group" role="group" aria-label="Switch between layer">
-        <button type="button" class="btn btn-primary {{if this.isTrafficLayer "active"}}" {{on "click" (fn this.switchLayer "traffic")}}>Traffic</button>
-        <button type="button" class="btn btn-primary {{if this.isTransitLayer "active"}}" {{on "click" (fn this.switchLayer "transit")}}>Transit</button>
-        <button type="button" class="btn btn-primary {{if this.isBicyclingLayer "active"}}" {{on "click" (fn this.switchLayer "bicycling")}}>Bicycling</button>
+        <button
+          type="button"
+          class="btn btn-primary {{if this.isTrafficLayer 'active'}}"
+          {{on "click" (fn this.switchLayer "traffic")}}
+        >Traffic</button>
+        <button
+          type="button"
+          class="btn btn-primary {{if this.isTransitLayer 'active'}}"
+          {{on "click" (fn this.switchLayer "transit")}}
+        >Transit</button>
+        <button
+          type="button"
+          class="btn btn-primary {{if this.isBicyclingLayer 'active'}}"
+          {{on "click" (fn this.switchLayer "bicycling")}}
+        >Bicycling</button>
       </div>
 
       <CodeSnippet @name={{this.codeSnippet}} />
@@ -24,7 +36,9 @@
       @minZoom={{10}}
       @panControl={{false}}
       @streetViewControl={{false}}
-      class="ember-google-map-responsive" as |g|>
+      class="ember-google-map-responsive"
+      as |g|
+    >
       {{#if this.isTransitLayer}}
         <g.transitLayer />
       {{else if this.isTrafficLayer}}

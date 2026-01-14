@@ -16,12 +16,12 @@ module.exports = function (defaults) {
       mergeCustomComponents(componentsByAddonName) {
         let components = {};
 
-        for (([addonName, customComponents] of componentsByAddonName)) {
+        for (const [addonName, customComponents] of componentsByAddonName) {
           Object.assign(components, customComponents);
         }
 
         return components;
-      }
+      },
     },
   });
 
