@@ -61,6 +61,14 @@ function getCustomComponentsFromOptions(options) {
 module.exports = {
   name: require('./package').name,
 
+  options: {
+    babel: {
+      plugins: [
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+      ],
+    },
+  },
+
   init() {
     this._super.init.apply(this, arguments);
     this.debugTree = BroccoliDebug.buildDebugCallback(

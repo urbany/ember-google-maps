@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { Promise } from 'rsvp';
-import { keepLatestTask } from 'ember-concurrency';
+import { task } from 'ember-concurrency';
 import { TrackedSet } from 'tracked-maps-and-sets';
 import { waitFor } from '@ember/test-waiters';
 import { untrack } from '../../effects/tracking';
@@ -63,10 +63,9 @@ export default class Directions extends MapComponent {
     return untrack(() => this.fetchDirections.perform(newOptions));
   }
 
-  @keepLatestTask
   @waitFor
-  *fetchDirections(options = {}) {
-    let directionsService = yield this.googleMapsApi.directionsService;
+  fetchDirections = task({ keepLatest: true }, async (options = {}) => {
+    let directionsService = await this.googleMapsApi.directionsService;
 
     let request = new Promise((resolve, reject) => {
       directionsService.route(options, (response, status) => {
@@ -78,11 +77,11 @@ export default class Directions extends MapComponent {
       });
     });
 
-    this.directions = yield request;
+    this.directions = await request;
     this.events.onDirectionsChanged?.(this.publicAPI);
 
     return this.directions;
-  }
+  });
 
   // Directions can just be restarted
   teardown() {}
