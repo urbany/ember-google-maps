@@ -2,13 +2,7 @@ import { createCache, getValue } from '@glimmer/tracking/primitives/cache';
 import { _backburner } from '@ember/runloop';
 import { registerDestructor } from '@ember/destroyable';
 
-// TODO Revisit when Glimmer gets effects
 let untrack = (fn) => fn();
-
-import Ember from 'ember';
-if (Object.keys(Ember.__loader.registry).includes('@glimmer/validator')) {
-  ({ untrack } = Ember.__loader.require('@glimmer/validator'));
-}
 
 /**
  * It’s been clear since launch that Octane’s design doesn’t account for a few
