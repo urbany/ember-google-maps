@@ -1,28 +1,15 @@
 # compiled output
-/dist/
-/declarations/
+dist/
+tmp/
 
 # dependencies
-/node_modules/
+node_modules/
 
 # misc
-/.env*
-/.pnp*
-/.eslintcache
-/coverage/
-/npm-debug.log*
-/testem.log
-/yarn-error.log
-
-# broccoli-debug
-/DEBUG/
-
-# devenv
-.devenv*
-devenv.local.nix
-
-# direnv
-.direnv
-
-# pre-commit
-.pre-commit-config.yaml
+.DS_Store
+.env*
+.eslintcache
+pnpm-debug.log
+.tmp-test-app.log
+test-app-test.exit
+test-app-test.log

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+#### :bug: Bug fixes
+
+- Fix Embroider/Vite/Rolldown compatibility by avoiding deep-import resolution to `@ember/string/index.js`.
+
 ## v7.3.0 (2024-12-04)
 
 #### :bug: Bug fixes
