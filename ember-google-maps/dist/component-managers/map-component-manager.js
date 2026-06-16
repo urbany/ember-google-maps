@@ -1,0 +1,130 @@
+import { capabilities } from '@ember/component';
+import { setOwner } from '@ember/application';
+import { service } from '@ember/service';
+import { destroy, isDestroyed, isDestroying, associateDestroyableChild } from '@ember/destroyable';
+import { assert } from '@ember/debug';
+import { buildWaiter } from '@ember/test-waiters';
+import { OptionsAndEvents } from '../utils/options-and-events.js';
+import { setupEffect } from '../effects/tracking.js';
+import { g, i } from 'decorator-transforms/runtime-esm';
+
+let testWaiter = buildWaiter('ember-google-maps:map-component-waiter');
+const MAP_INSTANCES = new Map();
+let lastMapId = null;
+function registerMapInstance(id, instance) {
+  MAP_INSTANCES.set(id, instance);
+  lastMapId = id;
+}
+function unregisterMapInstance(id) {
+  MAP_INSTANCES.delete(id);
+}
+function clearMapInstances() {
+  MAP_INSTANCES.clear();
+}
+function getMapInstance(id) {
+  if (id) {
+    return MAP_INSTANCES.get(id);
+  }
+  return MAP_INSTANCES.get(lastMapId);
+}
+class MapComponentManager {
+  static {
+    g(this.prototype, "googleMapsApi", [service]);
+  }
+  #googleMapsApi = (i(this, "googleMapsApi"), void 0);
+  get google() {
+    return this.googleMapsApi.google;
+  }
+  get isFastBoot() {
+    return this.fastboot?.isFastBoot ?? false;
+  }
+  capabilities = capabilities('3.13', {
+    asyncLifecycleCallbacks: false,
+    destructor: true,
+    // The update hook updates every single component in the tree, which is slow
+    // as molasses.
+    updateHook: false,
+    createArgs: true,
+    prepareArgs: true
+  });
+  constructor(owner) {
+    this.owner = owner;
+    setOwner(this, owner);
+    this.fastboot = owner.lookup('service:fastboot');
+  }
+  createComponent(Class, args) {
+    let optionsTracker = new OptionsAndEvents(args.named);
+    let {
+      options,
+      events
+    } = optionsTracker;
+    let component = new Class(this.owner, args.named, options, events);
+    if (!this.isFastBoot) {
+      // TODO: What happens when we fail to load the API?
+      this.google.then(() => {
+        this.setupMapComponent(component);
+      });
+    }
+    return component;
+  }
+  destroyComponent(component) {
+    if (component.canvas) {
+      MAP_INSTANCES.delete(component.canvas.id);
+    }
+    if (component.mapComponent) {
+      component?.teardown(component.mapComponent);
+    }
+    destroy(component);
+  }
+  getContext(component) {
+    return component ?? {};
+  }
+  setupMapComponent(component) {
+    assert('Each map component needs to have a `setup` method.', component.setup);
+    let token = testWaiter.beginAsync();
+    let initialSetupCompleted = false;
+    let hasUpdate = typeof component.update === 'function';
+    let effect, mapComponent, trackThisInstead;
+    if (hasUpdate) {
+      effect = setupEffect(() => {
+        if (mapComponent === undefined) {
+          mapComponent = component.setup(component.options, component.events);
+          if (mapComponent.length) {
+            [mapComponent, trackThisInstead] = mapComponent;
+          }
+          component.mapComponent = mapComponent;
+          if (!initialSetupCompleted) {
+            initialSetupCompleted = true;
+            testWaiter.endAsync(token);
+          }
+        } else {
+          component.update(mapComponent, component.options);
+        }
+        return trackThisInstead ?? mapComponent;
+      });
+    } else {
+      effect = setupEffect(() => {
+        // Teardown the previous map component if it exists
+        if (mapComponent) {
+          component.teardown(mapComponent);
+        }
+        mapComponent = component.setup(component.options, component.events);
+        component.mapComponent = mapComponent;
+        if (!initialSetupCompleted) {
+          initialSetupCompleted = true;
+          testWaiter.endAsync(token);
+        }
+        return mapComponent;
+      });
+    }
+
+    // Destroy effects when the component is destroyed.
+    if (!isDestroyed(component) && !isDestroying(component)) {
+      associateDestroyableChild(component, effect);
+    }
+    return mapComponent;
+  }
+}
+
+export { MapComponentManager, clearMapInstances, getMapInstance, registerMapInstance, unregisterMapInstance };
+//# sourceMappingURL=map-component-manager.js.map

@@ -1,6 +1,8 @@
 # compiled output
 dist/
 tmp/
+!ember-google-maps/dist/
+!ember-google-maps/dist/**
 
 # dependencies
 node_modules/
