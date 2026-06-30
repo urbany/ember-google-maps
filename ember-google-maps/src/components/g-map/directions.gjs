@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 import { waitFor } from '@ember/test-waiters';
 import { Promise } from 'rsvp';
 import { task } from 'ember-concurrency';
-import { TrackedSet } from 'tracked-maps-and-sets';
 import MapComponent from './map-component';
 import GMapRoute from './route';
 import GMapWaypoint from './waypoint';
@@ -36,7 +35,7 @@ export default class Directions extends MapComponent {
 
   @tracked directions = null;
 
-  waypointComponents = new TrackedSet();
+  waypointComponents = new Set();
 
   get waypoints() {
     return [...(this.options.waypoints ?? []), ...this.serializedWaypoints];

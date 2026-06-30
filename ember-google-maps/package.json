@@ -56,8 +56,7 @@
     "ember-cli-version-checker": "^5.1.2",
     "ember-concurrency": "^5.1.0",
     "ember-modifier": "^4.2.2",
-    "lodash": "^4.17.21",
-    "tracked-maps-and-sets": "^3.0.2"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

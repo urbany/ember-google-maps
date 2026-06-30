@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { waitFor } from '@ember/test-waiters';
 import { Promise as Promise$1 } from 'rsvp';
-import { TrackedSet } from 'tracked-maps-and-sets';
 import MapComponent from './map-component.js';
 import Route from './route.js';
 import Waypoint from './waypoint.js';
@@ -41,7 +40,7 @@ class Directions extends MapComponent {
     });
   }
   #directions = (i(this, "directions"), void 0);
-  waypointComponents = new TrackedSet();
+  waypointComponents = new Set();
   get waypoints() {
     return [...(this.options.waypoints ?? []), ...this.serializedWaypoints];
   }
